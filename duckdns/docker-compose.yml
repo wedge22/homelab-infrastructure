@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  duckdns:
+    container_name: duckdns-test
+    image: linuxserver/duckdns:latest
+    logging:
+      driver: "syslog"
+      options:
+        syslog-address: "tcp://172.22.0.2:514"  # SC4S IP and port
+        syslog-facility: "user"  # You can specify the log facility
+        tag: "docker/{{.Name}}"  # Optional: Tag your logs with container name
+    environment:
+      - TOKEN=${DUCKDNS_TOKEN}  # Replace with your DuckDNS token
+      - SUBDOMAINS=${DUCK_DNS_SUBDOMAINS}  # Replace with your DuckDNS subdomain (e.g., mydomain)
+      - TZ=America/Vancouver  # Replace with your timezone
+    volumes:
+      - /mnt/user/appdata/duckdns:/config  # Adjust the path if needed
+    restart: unless-stopped
+    network_mode: host

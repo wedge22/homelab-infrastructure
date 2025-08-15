@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  emulatorjs:
+    image: lscr.io/linuxserver/emulatorjs:latest
+    logging:
+      driver: "syslog"
+      options:
+        syslog-address: "tcp://172.22.0.2:514"  # SC4S IP and port
+        syslog-facility: "user"  # You can specify the log facility
+        tag: "docker/{{.Name}}"  # Optional: Tag your logs with container name
+    container_name: emulatorjs
+    ports:
+      - "3000:3000"   # Update with your actual port mappings
+      - "380:80"
+      - "4001:4001"
+    volumes:
+      - /mnt/user/appdata/emulatorjs:/config  # Update with your actual volume mappings
+      - /mnt/user/media/Roms:/data            # Example volume for games
+    environment:
+      - PUID=99         # Update with your actual user ID
+      - PGID=100         # Update with your actual group ID
+      - TZ=America/Vancouver  # Set your timezone
+    networks:
+      - jarvis
+    restart: unless-stopped
+
+networks:
+  jarvis:
+    external: true  # Use the existing network named internal_network
+    

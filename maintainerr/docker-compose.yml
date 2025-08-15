@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  maintainerr:
+    container_name: maintainerr-portainer
+    image: jorenn92/maintainerr:latest
+    user: "99:100"  # Use Docker user directive instead of PUID/PGID
+    logging:
+      driver: "syslog"
+      options:
+        syslog-address: "tcp://172.22.0.2:514"  # SC4S IP and port
+        syslog-facility: "user"
+        tag: "docker/{{.Name}}"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.maintainerr.rule=Host(`maintainerr.${BASE_DOMAIN}`)
+      - traefik.http.routers.maintainerr.tls=true
+      - traefik.http.routers.maintainerr.entrypoints=http,https
+      - traefik.http.routers.maintainerr.tls.certresolver=letsencrypt
+      - traefik.http.services.maintainerr.loadbalancer.server.port=6246
+      - traefik.http.routers.maintainerr.middlewares=auth@file
+      - external=true
+    environment:
+      - TZ=America/Vancouver
+      # Remove PUID/PGID - not supported in v2.0.0+
+    volumes:
+      - /mnt/user/appdata/maintainerr:/opt/data
+    restart: unless-stopped
+    networks:
+      - jarvis
+
+networks:
+  jarvis:
+    external: true

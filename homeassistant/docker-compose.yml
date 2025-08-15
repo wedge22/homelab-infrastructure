@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:stable
+    logging:
+      driver: "syslog"
+      options:
+        syslog-address: "tcp://172.22.0.2:514"  # SC4S IP and port
+        syslog-facility: "user"
+        tag: "docker/{{.Name}}"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.homeassistant.rule=Host(`homeassistant.${BASE_DOMAIN}`)
+      - traefik.http.routers.homeassistant.tls=true
+      - traefik.http.routers.homeassistant.entrypoints=http,https
+      - traefik.http.routers.homeassistant.tls.certresolver=letsencrypt
+      - traefik.http.services.homeassistant.loadbalancer.server.port=8123
+      - traefik.http.routers.homeassistant.middlewares=auth@file
+      - external=true
+    environment:
+      - PUID=99
+      - PGID=100
+      - TZ=America/Vancouver
+    volumes:
+      - /mnt/user/appdata/homeassistant:/config
+      - /mnt/user/data:/data:ro  # Optional: read-only access to your data
+    # Remove port mapping since Traefik will handle routing
+    # ports:
+    #   - 8124:8123
+    privileged: true  # Required for device access and network discovery
+    # Uncomment and modify the devices section below if you have USB sticks
+    # devices:
+    #   - /dev/ttyUSB0:/dev/ttyUSB0
+    #   - /dev/ttyACM0:/dev/ttyACM0
+    restart: unless-stopped
+    networks:
+      - jarvis
+
+networks:
+  jarvis:
+    external: true

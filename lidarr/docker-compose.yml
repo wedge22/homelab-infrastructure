@@ -1,0 +1,37 @@
+version: "3.8"
+services:
+  lidarr:
+    container_name: lidarr-portainer
+    image: lscr.io/linuxserver/lidarr:latest
+    logging:
+      driver: "syslog"
+      options:
+        syslog-address: "tcp://172.22.0.2:514"  # SC4S IP and port
+        syslog-facility: "user"  # You can specify the log facility
+        tag: "docker/{{.Name}}"  # Optional: Tag your logs with container name
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.lidarr.rule=Host(`lidarr.${BASE_DOMAIN}`)
+      - traefik.http.routers.lidarr.tls=true
+      - traefik.http.routers.lidarr.entrypoints=http,https
+      - traefik.http.routers.lidarr.tls.certresolver=letsencrypt
+      - traefik.http.services.lidarr.loadbalancer.server.port=8686
+      - traefik.http.routers.lidarr.middlewares=auth@file
+      - external=true
+    environment:
+      - PUID=99
+      - PGID=100
+      - TZ=America/Vancouver
+    volumes:
+      - /mnt/user/appdata/lidarr:/config
+      - /mnt/user/data:/data
+    # Remove port mapping since Traefik will handle routing
+    # ports:
+    #   - 8686:8686
+    restart: unless-stopped
+    networks:
+      - jarvis
+
+networks:
+  jarvis:
+    external: true
