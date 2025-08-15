@@ -1,0 +1,48 @@
+# ============================================
+# NETFORGE CONTROL MATRIX - SECURITY GITIGNORE
+# ============================================
+
+# Environment files with secrets
+.env
+.env.local
+.env.secrets
+*.secrets
+
+# Allow the safe template
+!.env.example
+
+# Certificate and key files
+*.pem
+*.key
+**/certs/
+**/secrets/
+
+# Traefik configs (may contain secrets)
+traefik/
+
+# Backup files that might contain secrets
+*.bak
+*.backup
+*.old
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE files
+.vscode/
+.idea/
+*.code-workspace
+
+# Logs that might contain sensitive data
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+
+# Docker override files (may contain local secrets)
+docker-compose.override.yml
