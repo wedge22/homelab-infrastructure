@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:latest
+    container_name: overseerr-portainer
+    restart: unless-stopped
+    environment:
+      - PUID=99
+      - PGID=100
+      - TZ=America/Los_Angeles
+    volumes:
+      - /mnt/user/appdata/overseerr:/config
+    ports:
+      - "5055:5055"
+    networks:
+      - jarvis
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.overseerr.rule=Host(`overseerr.${BASE_DOMAIN}`)
+      - traefik.http.routers.overseerr.tls=true
+      - traefik.http.routers.overseerr.entrypoints=http,https
+      - traefik.http.routers.overseerr.tls.certresolver=letsencrypt
+      - traefik.http.services.overseerr.loadbalancer.server.port=5055
+      # Optional: Add Authelia protection (uncomment if desired)
+      - traefik.http.routers.overseerr.middlewares=auth@file
+      - external=true
+
+networks:
+  jarvis:
+    external: true
