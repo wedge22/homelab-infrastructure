@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  nzbhydra2:
+    image: linuxserver/nzbhydra2
+    container_name: hydra2
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.nzbhydra2.rule=Host(`nzbhydra2.${BASE_DOMAIN}`)
+      - traefik.http.routers.nzbhydra2.tls=true
+      - traefik.http.routers.nzbhydra2.entrypoints=http,https
+      - traefik.http.routers.nzbhydra2.tls.certresolver=letsencrypt
+      - traefik.http.services.nzbhydra2.loadbalancer.server.port=5076
+      - traefik.http.routers.nzbhydra2.middlewares=auth@file
+      - external=true
+    environment:
+      - PUID=99
+      - PGID=100
+      - TZ=America/Los_Angeles
+    volumes:
+      - /mnt/user/appdata/hydra2:/config
+      - /mnt/user/downloads:/downloads
+    networks:
+      - jarvis
+
+networks:
+  jarvis:
+    external: true
