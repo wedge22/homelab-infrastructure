@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  sonarr-anime:
+    image: linuxserver/sonarr
+    container_name: sonarr-anime
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sonarr-anime.rule=Host(`sonarr-anime.${BASE_DOMAIN}`)
+      - traefik.http.routers.sonarr-anime.tls=true
+      - traefik.http.routers.sonarr-anime.entrypoints=http,https
+      - traefik.http.routers.sonarr-anime.tls.certresolver=letsencrypt
+      - traefik.http.services.sonarr-anime.loadbalancer.server.port=8989
+      - traefik.http.routers.sonarr-anime.middlewares=auth@file
+      - external=true
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    volumes:
+      - /mnt/user/appdata/sonarr-anime:/config
+      - /mnt/user/data:/data
+    networks:
+      - jarvis
+    # No port mapping needed - Traefik handles routing
+
+networks:
+  jarvis:
+    external: true

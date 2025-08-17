@@ -1,0 +1,39 @@
+version: "3.7"
+services:
+  sc4s:
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    image: ghcr.io/splunk/splunk-connect-for-syslog/container3:latest
+    networks:
+      sc4s-network:
+        ipv4_address: 172.22.0.2
+        
+    ports:
+      - "514:514/tcp"
+      - "514:514/udp"
+      - "601:601/tcp"
+      - "6514:6514/tcp"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Vancouver
+      - SC4S_DEST_SPLUNK_HEC_DEFAULT_URL=${SC4S_DEST_SPLUNK_HEC_DEFAULT_URL}
+      - SC4S_DEST_SPLUNK_HEC_DEFAULT_TOKEN=${SC4S_DEST_SPLUNK_HEC_DEFAULT_TOKEN}
+      - SC4S_DEBUG=1
+    volumes:
+      - splunk-sc4s-var:/var/lib/syslog-ng
+      - /mnt/user/appdata/sc4s/local:/etc/syslog-ng/conf.d/local:z
+      - /mnt/user/appdata/sc4s/archive:/var/lib/syslog-ng/archive:z
+      - /mnt/user/appdata/sc4s/tls:/etc/syslog-ng/tls:z
+      - /mnt/user/appdata/sc4s/local/context:/opt/sc4s/local/context:z
+volumes:
+  splunk-sc4s-var:
+networks:
+  sc4s-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.22.0.0/16"

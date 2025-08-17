@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  tautulli:
+    container_name: tautulli-portainer
+    image: lscr.io/linuxserver/tautulli:latest
+    logging:
+      driver: "syslog"
+      options:
+        syslog-address: "tcp://172.22.0.2:514"  # SC4S IP and port
+        syslog-facility: "user"  # You can specify the log facility
+        tag: "docker/{{.Name}}"  # Optional: Tag your logs with container name
+    environment:
+      - PUID=99 
+      - PGID=100  
+      - TZ=America/Vancouver  
+    volumes:
+      - /mnt/user/appdata/tautulli:/config
+    ports:
+      - 8181:8181  
+    restart: unless-stopped
+    networks:
+      - jarvis  
+
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.tautulli.rule=Host(`tautulli.${BASE_DOMAIN}`)
+      - traefik.http.routers.tautulli.tls=true
+      - traefik.http.routers.tautulli.entrypoints=http,https
+      - traefik.http.routers.tautulli.tls.certresolver=letsencrypt
+      - traefik.http.services.tautulli.loadbalancer.server.port=8181
+      - traefik.http.routers.tautulli.middlewares=auth@file
+      - external=true
+
+networks:
+  jarvis:
+    external: true

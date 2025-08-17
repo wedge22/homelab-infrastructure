@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sonarr.rule=Host(`sonarr.${BASE_DOMAIN}`)
+      - traefik.http.routers.sonarr.tls=true
+      - traefik.http.routers.sonarr.entrypoints=http,https
+      - traefik.http.routers.sonarr.tls.certresolver=letsencrypt
+      - traefik.http.services.sonarr.loadbalancer.server.port=8989
+      - traefik.http.routers.sonarr.middlewares=auth@file
+      - external=true
+    environment:
+      - PUID=99
+      - PGID=100
+      - TZ=America/Los_Angeles
+    volumes:
+      - /mnt/user/appdata/sonarr:/config
+      - /mnt/user/data:/data
+    networks:
+      - jarvis
+
+networks:
+  jarvis:
+    external: true

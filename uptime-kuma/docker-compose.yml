@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: uptime-kuma
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.uptime-kuma.rule=Host(`uptime.${BASE_DOMAIN}`)
+      - traefik.http.routers.uptime-kuma.tls=true
+      - traefik.http.routers.uptime-kuma.entrypoints=http,https
+      - traefik.http.routers.uptime-kuma.tls.certresolver=letsencrypt
+      - traefik.http.services.uptime-kuma.loadbalancer.server.port=3001
+      # Optional: Add Authelia protection (uncomment if desired)
+      # - traefik.http.routers.uptime-kuma.middlewares=auth@file
+      - external=true
+    environment:
+      - PUID=99
+      - PGID=100
+      - TZ=America/Los_Angeles
+    volumes:
+      - /mnt/user/appdata/uptime-kuma:/app/data
+    networks:
+      - jarvis
+
+networks:
+  jarvis:
+    external: true
