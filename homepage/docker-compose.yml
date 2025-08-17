@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.homepage.rule=Host(`homepage.${BASE_DOMAIN}`)
+      - traefik.http.routers.homepage.tls=true
+      - traefik.http.routers.homepage.entrypoints=http,https
+      - traefik.http.routers.homepage.tls.certresolver=letsencrypt
+      - traefik.http.services.homepage.loadbalancer.server.port=3000
+      # Optional: Add Authelia protection (uncomment if desired)
+      # - traefik.http.routers.homepage.middlewares=auth@file
+      - external=true
+    env_file:
+      - .env.example # change to .env in prod
+    environment:
+      - PUID=99
+      - PGID=100
+      - TZ=America/Los_Angeles
+      - HOMEPAGE_ALLOWED_HOSTS=${HOMEPAGE_ALLOWED_HOSTS}
+      - HOMEPAGE_VAR_TITLE=The Construct
+      # NEW: Use docker socket proxy instead of direct socket access
+      - DOCKER_HOST=tcp://dockersocket:2375
+    volumes:
+      - /mnt/user/appdata/homepage/config:/app/config
+      # REMOVED: Direct docker socket access
+      # - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - jarvis
+
+networks:
+  jarvis:
+    external: true

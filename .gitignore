@@ -1,6 +1,10 @@
 # ============================================
 # NETFORGE CONTROL MATRIX - SECURITY GITIGNORE
 # ============================================
+# Git hooks (local configuration only)
+.githooks/
+.git/hooks/
+setup-hooks.sh  # Optional: if you want to keep this local too
 
 # Environment files with secrets
 .env

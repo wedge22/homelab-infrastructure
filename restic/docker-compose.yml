@@ -1,0 +1,261 @@
+version: "3.3"
+services:
+  # TIER 1: Critical daily backups (small, fast)
+  backup-critical:
+    image: mazzolino/restic
+    container_name: restic-critical
+    hostname: restic_critical
+    environment:
+      RUN_ON_STARTUP: "true"
+      BACKUP_CRON: "0 2 * * *"  # Daily at 2 AM
+      RESTIC_REPOSITORY: /restic/critical
+      RESTIC_PASSWORD: ${RESTIC_PASSWORD}
+      RESTIC_CACHE_DIR: /cache
+      RESTIC_BACKUP_SOURCES: /mnt/critical
+      RESTIC_COMPRESSION: auto
+      RESTIC_BACKUP_ARGS: >-
+        --tag critical-backup
+        --verbose
+      RESTIC_FORGET_ARGS: >-
+        --keep-last 14       # 2 weeks of dailies
+        --keep-daily 7       # 1 week  
+        --keep-weekly 8      # 2 months
+        --keep-monthly 12    # 1 year
+      TZ: America/Vancouver
+    volumes:
+      - /mnt/disks/2K1920038014/critical:/restic/critical
+      - /mnt/disks/2K1920038014/cache:/cache
+      - /mnt/disks/2K1920038014/tmp-for-restore:/tmp-for-restore
+      # Critical folders only
+      - /mnt/user/appdata/Authelia:/mnt/critical/Authelia:ro
+      - /mnt/user/appdata/NginxProxyManager:/mnt/critical/NginxProxyManager:ro
+      - /mnt/user/appdata/cloudflared:/mnt/critical/cloudflared:ro
+      - /mnt/user/appdata/crowdsec:/mnt/critical/crowdsec:ro
+      - /mnt/user/appdata/traefik:/mnt/critical/traefik:ro
+      - /mnt/user/appdata/traefik-proxy:/mnt/critical/traefik-proxy:ro
+      - /mnt/user/appdata/ssl_certs:/mnt/critical/ssl_certs:ro
+      - /mnt/user/appdata/n8n:/mnt/critical/n8n:ro
+      - /mnt/user/appdata/portainer:/mnt/critical/portainer:ro
+      - /mnt/user/appdata/postgresql14:/mnt/critical/postgresql14:ro
+      - /mnt/user/appdata/mariadb:/mnt/critical/mariadb:ro
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - jarvis
+    restart: unless-stopped
+
+  # TIER 2: Application configs (larger, less frequent)
+  backup-configs:
+    image: mazzolino/restic
+    container_name: restic-configs
+    hostname: restic_configs
+    environment:
+      RUN_ON_STARTUP: "true"
+      BACKUP_CRON: "0 3 */2 * *"  # Every 2 days at 3 AM
+      RESTIC_REPOSITORY: /restic/configs
+      RESTIC_PASSWORD: ${RESTIC_PASSWORD}
+      RESTIC_CACHE_DIR: /cache
+      RESTIC_BACKUP_SOURCES: /mnt/configs
+      RESTIC_COMPRESSION: auto
+      RESTIC_BACKUP_ARGS: >-
+        --tag config-backup
+        --verbose
+        --exclude "*.log"
+        --exclude "*.log.*"
+        --exclude "**/logs/**"
+        --exclude "**/cache/**"
+        --exclude "**/Cache/**"
+        --exclude "**/temp/**"
+        --exclude "**/tmp/**"
+        --exclude "*.tmp"
+        --exclude "**/plex/Library/Application Support/Plex Media Server/Cache/**"
+        --exclude "**/plex/Library/Application Support/Plex Media Server/Logs/**"
+        --exclude "**/plex/Library/Application Support/Plex Media Server/Crash Reports/**"
+        --exclude "**/plex/transcode/**"
+        --exclude "**/jellyfin/cache/**"
+        --exclude "**/jellyfin/log/**"
+        --exclude "**/jellyfin/transcodes/**"
+        --exclude "**/bbergle-jellyfin/cache/**"
+        --exclude "**/bbergle-jellyfin/log/**"
+        --exclude "**/bbergle-jellyfin/transcodes/**"
+        --exclude "**/audiobookshelf/podcasts/**"
+        --exclude "**/audiobookshelf/audiobooks/**"
+        --exclude "**/audiobookshelf/backups/**"
+      RESTIC_FORGET_ARGS: >-
+        --keep-last 7      
+        --keep-daily 5       
+        --keep-weekly 6      
+        --keep-monthly 6    
+      TZ: America/Vancouver
+    volumes:
+      - /mnt/disks/2K1920038014/configs:/restic/configs
+      - /mnt/disks/2K1920038014/cache:/cache
+      # Application config folders
+      - /mnt/user/appdata/overseerr:/mnt/configs/overseerr:ro
+      - /mnt/user/appdata/prowlarr:/mnt/configs/prowlarr:ro
+      - /mnt/user/appdata/radarr:/mnt/configs/radarr:ro
+      - /mnt/user/appdata/binhex-radarr:/mnt/configs/binhex-radarr:ro
+      - /mnt/user/appdata/sonarr:/mnt/configs/sonarr:ro
+      - /mnt/user/appdata/sonarr-anime:/mnt/configs/sonarr-anime:ro
+      - /mnt/user/appdata/lidarr:/mnt/configs/lidarr:ro
+      - /mnt/user/appdata/binhex-sabnzbd:/mnt/configs/binhex-sabnzbd:ro
+      - /mnt/user/appdata/pyload:/mnt/configs/pyload:ro
+      - /mnt/user/appdata/tautulli:/mnt/configs/tautulli:ro
+      - /mnt/user/appdata/uptime-kuma:/mnt/configs/uptime-kuma:ro
+      - /mnt/user/appdata/heimdall:/mnt/configs/heimdall:ro
+      - /mnt/user/appdata/homarr:/mnt/configs/homarr:ro
+      - /mnt/user/appdata/homepage:/mnt/configs/homepage:ro
+      - /mnt/user/appdata/plex:/mnt/configs/plex:ro
+      - /mnt/user/appdata/jellyfin:/mnt/configs/jellyfin:ro
+      - /mnt/user/appdata/bbergle-jellyfin:/mnt/configs/bbergle-jellyfin:ro
+      - /mnt/user/appdata/audiobookshelf:/mnt/configs/audiobookshelf:ro
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - jarvis
+    restart: unless-stopped
+
+  # Simplified prune for critical repository
+  prune-critical:
+    image: mazzolino/restic
+    container_name: restic-prune-critical
+    hostname: restic_prune_critical
+    environment:
+      RUN_ON_STARTUP: "false"
+      PRUNE_CRON: "0 5 */3 * *"  # Every 3 days at 5 AM
+      RESTIC_REPOSITORY: /restic/critical
+      RESTIC_PASSWORD: ${RESTIC_PASSWORD}
+      RESTIC_CACHE_DIR: /cache
+      RESTIC_FORGET_ARGS: >-
+        --keep-last 14
+        --keep-daily 7
+        --keep-weekly 8
+        --keep-monthly 12
+      TZ: America/Vancouver
+    volumes:
+      - /mnt/disks/2K1920038014/critical:/restic/critical
+      - /mnt/disks/2K1920038014/cache:/cache
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - jarvis
+    restart: unless-stopped
+
+  # Simplified prune for configs repository  
+  prune-configs:
+    image: mazzolino/restic
+    container_name: restic-prune-configs
+    hostname: restic_prune_configs
+    environment:
+      RUN_ON_STARTUP: "false"
+      PRUNE_CRON: "0 6 */3 * *"  # Every 3 days at 6 AM (offset by 1 hour)
+      RESTIC_REPOSITORY: /restic/configs
+      RESTIC_PASSWORD: ${RESTIC_PASSWORD}
+      RESTIC_CACHE_DIR: /cache
+      RESTIC_FORGET_ARGS: >-
+        --keep-last 7
+        --keep-daily 5
+        --keep-weekly 6
+        --keep-monthly 6
+      TZ: America/Vancouver
+    volumes:
+      - /mnt/disks/2K1920038014/configs:/restic/configs
+      - /mnt/disks/2K1920038014/cache:/cache
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - jarvis
+    restart: unless-stopped
+
+  # Simplified check for critical repository
+  check-critical:
+    image: mazzolino/restic
+    container_name: restic-check-critical
+    hostname: restic_check_critical
+    environment:
+      RUN_ON_STARTUP: "false"
+      CHECK_CRON: "0 7 * * 0"  # Weekly on Sunday at 7 AM
+      RESTIC_REPOSITORY: /restic/critical
+      RESTIC_PASSWORD: ${RESTIC_PASSWORD}
+      RESTIC_CACHE_DIR: /cache
+      RESTIC_CHECK_ARGS: >-
+        --read-data-subset=5%
+      TZ: America/Vancouver
+    volumes:
+      - /mnt/disks/2K1920038014/critical:/restic/critical
+      - /mnt/disks/2K1920038014/cache:/cache
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - jarvis
+    restart: unless-stopped
+
+  # Simplified check for configs repository
+  check-configs:
+    image: mazzolino/restic
+    container_name: restic-check-configs
+    hostname: restic_check_configs
+    environment:
+      RUN_ON_STARTUP: "false"
+      CHECK_CRON: "0 8 * * 0"  # Weekly on Sunday at 8 AM
+      RESTIC_REPOSITORY: /restic/configs
+      RESTIC_PASSWORD: ${RESTIC_PASSWORD}
+      RESTIC_CACHE_DIR: /cache
+      RESTIC_CHECK_ARGS: >-
+        --read-data-subset=5%
+      TZ: America/Vancouver
+    volumes:
+      - /mnt/disks/2K1920038014/configs:/restic/configs
+      - /mnt/disks/2K1920038014/cache:/cache
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - jarvis
+    restart: unless-stopped
+    
+    # Cloud backup for critical data
+  backup-critical-cloud:
+    image: mazzolino/restic
+    container_name: restic-critical-cloud
+    hostname: restic_critical_cloud
+    environment:
+      RUN_ON_STARTUP: "false"
+      BACKUP_CRON: "0 4 * * 0"  # Weekly on Sunday at 4 AM
+      RESTIC_REPOSITORY: "gs:ksh-unraid-backups:/restic-critical"
+      RESTIC_PASSWORD: ${RESTIC_PASSWORD}
+      RESTIC_CACHE_DIR: /cache
+      RESTIC_BACKUP_SOURCES: /mnt/critical
+      RESTIC_COMPRESSION: max
+      RESTIC_BACKUP_ARGS: >-
+        --tag critical-cloud-backup
+        --verbose
+      RESTIC_FORGET_ARGS: >-
+        --keep-weekly 8
+        --keep-monthly 12
+      GOOGLE_APPLICATION_CREDENTIALS: /credentials/gcs-key.json
+      TZ: America/Vancouver
+    volumes:
+      - /mnt/disks/2K1920038014/cache:/cache
+      - /mnt/user/appdata/restic/credentials:/credentials:ro
+      - /mnt/user/appdata/Authelia:/mnt/critical/Authelia:ro
+      - /mnt/user/appdata/NginxProxyManager:/mnt/critical/NginxProxyManager:ro
+      - /mnt/user/appdata/cloudflared:/mnt/critical/cloudflared:ro
+      - /mnt/user/appdata/crowdsec:/mnt/critical/crowdsec:ro
+      - /mnt/user/appdata/traefik:/mnt/critical/traefik:ro
+      - /mnt/user/appdata/traefik-proxy:/mnt/critical/traefik-proxy:ro
+      - /mnt/user/appdata/ssl_certs:/mnt/critical/ssl_certs:ro
+      - /mnt/user/appdata/n8n:/mnt/critical/n8n:ro
+      - /mnt/user/appdata/portainer:/mnt/critical/portainer:ro
+      - /mnt/user/appdata/postgresql14:/mnt/critical/postgresql14:ro
+      - /mnt/user/appdata/mariadb:/mnt/critical/mariadb:ro
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - jarvis
+    restart: unless-stopped
+    
+    
+networks:
+  jarvis:
+    external: true
+    
