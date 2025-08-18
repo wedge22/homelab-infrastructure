@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    restart: unless-stopped
+    environment:
+      - PUID=99
+      - PGID=100
+      - TZ=America/Los_Angeles
+      - UMASK=000
+    volumes:
+      - /mnt/user/appdata/binhex-sabnzbd:/config
+      - /mnt/user/data/usenet:/data/usenet
+    ports:
+      - "8080:8080"
+    networks:
+      - jarvis
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sabnzbd.rule=Host(`sabnzbd.${BASE_DOMAIN}`)
+      - traefik.http.routers.sabnzbd.tls=true
+      - traefik.http.routers.sabnzbd.entrypoints=http,https
+      - traefik.http.routers.sabnzbd.tls.certresolver=letsencrypt
+      - traefik.http.services.sabnzbd.loadbalancer.server.port=8080
+      # Optional: Add Authelia protection (recommended for downloaders)
+      # - traefik.http.routers.sabnzbd.middlewares=auth@file
+      - external=true
+
+networks:
+  jarvis:
+    external: true
