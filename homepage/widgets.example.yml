@@ -1,0 +1,41 @@
+# For configuration options and examples, please see:
+
+- resources:
+    label: "SYSTEM CORE // RESOURCE MATRIX"
+    cpu: true
+    memory: true
+    disk: /
+    cputemp: true
+    tempmin: 0
+    tempmax: 100
+    uptime: true
+    units: metric
+    refresh: 3000
+    diskUnits: bytes
+    network: true
+    expanded: true
+
+- datetime:
+    text_size: xl
+    format:
+      dateStyle: short
+      timeStyle: short
+      hour12: false
+
+- greeting:
+    text_size: xl
+    text: "NEURAL LINK ESTABLISHED // SYSTEM ONLINE"
+
+- search:
+    provider: duckduckgo
+    target: _blank
+
+- openmeteo:
+    label: "ATMOSPHERIC DATA //THE GRID"
+    latitude: 49.2827
+    longitude: -122.7947
+    timezone: America/CityName
+    units: metric
+    cache: 5
+    format:
+      maximumFractionDigits: 1

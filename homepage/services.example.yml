@@ -1,0 +1,109 @@
+---
+- net.ops:
+    - Docker Dome:
+        icon: portainer.svg
+        href: "{{HOMEPAGE_VAR_PORTAINER_URL}}"
+        description: container command center
+
+- signal.core:
+    - BlackBox:
+        icon: pi-hole.svg
+        href: "ADD_PIHOLE_IP"
+        description: DNS sinkhole
+
+    - Gatekeeper:
+        icon: traefik.svg
+        href: "{{HOMEPAGE_VAR_TRAEFIK_URL}}"
+        description: reverse proxy mesh
+        #widget:
+        #  type: traefik
+        #  url: "{{HOMEPAGE_VAR_TRAEFIK_API}}"
+
+    - StatusNet:
+        icon: uptime-kuma.svg
+        href: "ADD_UPTIME_URL_DASHBOARD"
+        description: system health monitor
+        widget:
+            type: uptimekuma
+            url: "ADD_UPTIME_URL"
+            slug: "default"
+
+- test.net:
+    - XyzTest:
+        icon: mdi-test-tube
+        description: "{{PIHOLE_URL}}"
+        href: "ADD_PIHOLE_IP
+
+- data.vault:
+    - NetForge:
+        icon: unraid.svg
+        href: "{{HOMEPAGE_VAR_UNRAID_URL}}"
+        description: data control forge
+
+- media.stream:
+    - NeuroStream:
+        icon: plex.svg
+        href: "{{HOMEPAGE_VAR_PLEX_URL}}"
+        description: media relay core
+
+    - StatWatch:
+        icon: tautulli.svg
+        href: "{{HOMEPAGE_VAR_TAUTULLI_URL}}"
+        description: stream telemetry
+        widget:
+            type: tautulli
+            url: "{{HOMEPAGE_VAR_TAUTULLI_INTERNAL_URL}}"
+            key: "{{HOMEPAGE_VAR_TAUTULLI_API_KEY}}"
+
+    - CitizenReq:
+        icon: overseerr.svg
+        href: "{{HOMEPAGE_VAR_OVERSEERR_URL}}"
+        description: media requisition portal
+
+    - SignalHound:
+        icon: sonarr.svg
+        href: "{{HOMEPAGE_VAR_SONARR_URL}}"
+        description: episodic net sniffing
+        widget:
+            type: sonarr
+            url: "{{HOMEPAGE_VAR_SONARR_INTERNAL_URL}}"
+            key: "{{HOMEPAGE_VAR_SONARR_API_KEY}}"
+
+    - CineCore:
+        icon: radarr.svg
+        href: "{{HOMEPAGE_VAR_RADARR_URL}}"
+        description: film acquisition unit
+        widget:
+            type: radarr
+            url: "{{HOMEPAGE_VAR_RADARR_INTERNAL_URL}}"
+            key: "{{HOMEPAGE_VAR_RADARR_API_KEY}}"
+
+    - Soundwave:
+        icon: lidarr.svg
+        href: "{{HOMEPAGE_VAR_LIDARR_URL}}"
+        description: music index core
+
+    - DronePort:
+        icon: sabnzbd.svg
+        href: "{{HOMEPAGE_VAR_SABNZBD_URL}}"
+        description: auto-download port
+        widget:
+            type: sabnzbd
+            url: "{{HOMEPAGE_VAR_SABNZBD_INTERNAL_URL}}"
+            key: "{{HOMEPAGE_VAR_SABNZBD_API_KEY}}"
+
+    - HydraNode:
+        icon: nzbhydra2.svg
+        href: "{{HOMEPAGE_VAR_NZBHYDRA2_URL}}"
+        description: index crawler
+
+- system.control:
+    - TaskNet:
+        icon: n8n.svg
+        href: "{{HOMEPAGE_VAR_N8N_URL}}"
+        description: process automation node
+
+    - MineNet:
+        icon: minecraft.svg
+        href: "{{HOMEPAGE_VAR_CRAFTY_URL}}"
+        description: minecraft automation node

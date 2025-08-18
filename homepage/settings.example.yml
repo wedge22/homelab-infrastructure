@@ -1,0 +1,39 @@
+title: NETFORGE // Edgerunners Matrix
+
+background:
+  image: ADD_IMAGE_URL
+  blur: lg
+  saturate: 100
+  brightness: 80
+  opacity: 30
+
+theme: dark
+color: yellow
+
+useEqualHeights: true
+
+layout:
+  net.ops:
+    header: true
+    style: row
+    columns: 4
+  signal.core:
+    header: true
+    style: row
+    columns: 4
+  test.net:
+    header: true
+    style: row
+    columns: 4
+  data.vault:
+    header: true
+    style: row
+    columns: 4
+  media.stream:
+    header: true
+    style: row
+    columns: 4
+  system.control:
+    header: true
+    style: row
+    columns: 4
