@@ -10,9 +10,8 @@ services:
       - LOG_JSON=false
       - DIUN_PROVIDERS_DOCKER=true
       - DIUN_WATCH_SCHEDULE=0 */4 * * *
-      - DIUN_NOTIF_WEBHOOK_ENDPOINT=${DIUN_NOTIF_WEBHOOK_ENDPOINT}
-      - DIUN_NOTIF_WEBHOOK_METHOD=POST
-      - DIUN_NOTIF_WEBHOOK_HEADERS_CONTENT_TYPE=application/json
+      - DIUN_NOTIF_DISCORD_WEBHOOKURL=${DIUN_NOTIF_DISCORD_WEBHOOKURL}
+      - DIUN_PROVIDERS_DOCKER_WATCHBYDEFAULT=true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/user/appdata/diun:/data
