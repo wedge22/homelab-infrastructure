@@ -23,6 +23,7 @@ services:
     networks:
       - jarvis
     # No port mapping needed - Traefik handles routing
+    # Sonarr Anime - Anime TV show management
 
 networks:
   jarvis:
