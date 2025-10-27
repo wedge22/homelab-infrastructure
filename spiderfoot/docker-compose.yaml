@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  spiderfoot:
+    build:
+      context: https://github.com/smicallef/spiderfoot.git#master
+    container_name: spiderfoot
+    restart: unless-stopped
+    environment:
+      - TZ=America/Los_Angeles
+    volumes:
+      - /mnt/user/appdata/spiderfoot:/var/lib/spiderfoot
+    ports:
+      - "5001:5001"
+    networks:
+      - spiderfoot_internal
+    labels:
+      - traefik.enable=false
+
+networks:
+  spiderfoot_internal:
+    driver: bridge
+    internal: false

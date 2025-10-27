@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  mcpo-splunk:
+    image: ghcr.io/open-webui/mcpo:latest
+    container_name: mcpo-splunk
+    restart: unless-stopped
+    command: >
+      --config /config/mcp-config.json
+      --port 8000
+      --host 0.0.0.0
+      --log-level INFO
+    environment:
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+    volumes:
+      - /mnt/user/appdata/mcpo-splunk:/config
+    ports:
+      - "8090:8000"
+    networks:
+      - jarvis
+    labels:
+      - traefik.enable=false
+
+networks:
+  jarvis:
+    external: true

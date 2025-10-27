@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  valheim:
+    image: lloesche/valheim-server:latest
+    container_name: valheim
+    restart: unless-stopped
+    cap_add:
+      - sys_nice
+    environment:
+      - SERVER_NAME=${SERVER_NAME}
+      - WORLD_NAME=${WORLD_NAME}
+      - SERVER_PASS=${SERVER_PASS}
+      - SERVER_PUBLIC=false
+      - TZ=America/Los_Angeles
+      - PUID=99
+      - PGID=100
+    volumes:
+      - /mnt/user/appdata/valheim-lloesche/config:/config
+      - /mnt/user/appdata/valheim-lloesche/data:/opt/valheim
+    ports:
+      - "2456-2458:2456-2458/udp"
+    networks:
+      - jarvis
+
+networks:
+  jarvis:
+    external: true
