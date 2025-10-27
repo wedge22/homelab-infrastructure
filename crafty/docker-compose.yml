@@ -33,7 +33,7 @@ services:
       # Port 8443 removed - accessed via Traefik only
     networks:
       - jarvis
-# Test auto-deploy - 2024-10-27
+# Test auto-deploy2 - 2024-10-27
 networks:
   jarvis:
     external: true
