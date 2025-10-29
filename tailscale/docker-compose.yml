@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   tailscale:
@@ -8,7 +7,7 @@ services:
     environment:
       - PUID=99
       - PGID=100
-      - TZ=America/Los_Angeles
+      - TZ=America/Vancouver
       - TS_AUTHKEY=${TS_AUTHKEY}  # Replace with your actual auth key
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_USERSPACE=false

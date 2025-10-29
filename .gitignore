@@ -50,3 +50,6 @@ temp/
 
 # Docker override files (may contain local secrets)
 docker-compose.override.yml
+
+# Internal review and planning notes (not for public repo)
+CODE_REVIEW_NOTES.md

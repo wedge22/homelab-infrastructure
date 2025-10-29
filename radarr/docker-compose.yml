@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   radarr:
     image: linuxserver/radarr
@@ -16,7 +15,7 @@ services:
     environment:
       - PUID=99
       - PGID=100
-      - TZ=America/Los_Angeles
+      - TZ=America/Vancouver
       - UMASK=000
     volumes:
       - /mnt/user/appdata/binhex-radarr:/config

@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   emulatorjs:
@@ -20,7 +19,7 @@ services:
     environment:
       - PUID=99         # Update with your actual user ID
       - PGID=100         # Update with your actual group ID
-      - TZ=America/Vancouver  # Set your timezone
+      - TZ=America/Vancouver
     networks:
       - jarvis
     restart: unless-stopped

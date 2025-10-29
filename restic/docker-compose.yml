@@ -1,4 +1,3 @@
-version: "3.3"
 services:
   # TIER 1: Critical daily backups (small, fast)
   backup-critical:

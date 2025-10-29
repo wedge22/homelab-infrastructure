@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   maintainerr:
     container_name: maintainerr-portainer

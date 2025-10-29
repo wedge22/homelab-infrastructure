@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   mcpo-splunk:
     image: ghcr.io/open-webui/mcpo:latest

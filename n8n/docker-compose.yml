@@ -22,12 +22,12 @@ services:
       - traefik.http.routers.n8n.middlewares=auth@file
       - external=true
     environment:
-      - N8N_HOST=(`n8n.${BASE_DOMAIN}`)
+      - N8N_HOST=n8n.${BASE_DOMAIN}
       - N8N_PORT=5678
       - N8N_PROTOCOL=https
       - NODE_ENV=production
-      - WEBHOOK_URL=https://(`n8n.${BASE_DOMAIN}`)/
-      - GENERIC_TIMEZONE=America/Los_Angeles
+      - WEBHOOK_URL=https://n8n.${BASE_DOMAIN}/
+      - GENERIC_TIMEZONE=America/Vancouver
     volumes:
       - n8n_data:/home/node/.n8n
     networks:

@@ -1,4 +1,3 @@
-version: "3.8"
 
 services:
   duckdns:
@@ -13,7 +12,7 @@ services:
     environment:
       - TOKEN=${DUCKDNS_TOKEN}  # Replace with your DuckDNS token
       - SUBDOMAINS=${DUCK_DNS_SUBDOMAINS}  # Replace with your DuckDNS subdomain (e.g., mydomain)
-      - TZ=America/Vancouver  # Replace with your timezone
+      - TZ=America/Vancouver
     volumes:
       - /mnt/user/appdata/duckdns:/config  # Adjust the path if needed
     restart: unless-stopped

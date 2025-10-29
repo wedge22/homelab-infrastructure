@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   sonarr:
     image: linuxserver/sonarr
@@ -16,7 +15,7 @@ services:
     environment:
       - PUID=99
       - PGID=100
-      - TZ=America/Los_Angeles
+      - TZ=America/Vancouver
     volumes:
       - /mnt/user/appdata/sonarr:/config
       - /mnt/user/data:/data

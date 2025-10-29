@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   valheim:
@@ -12,7 +11,7 @@ services:
       - WORLD_NAME=${WORLD_NAME}
       - SERVER_PASS=${SERVER_PASS}
       - SERVER_PUBLIC=false
-      - TZ=America/Los_Angeles
+      - TZ=America/Vancouver
       - PUID=99
       - PGID=100
     volumes:
