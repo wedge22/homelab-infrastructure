@@ -1,0 +1,40 @@
+services:
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: stirling-pdf-tailscale
+    hostname: pdf
+    restart: unless-stopped
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+      - TS_EXTRA_ARGS=--advertise-tags=tag:container
+    volumes:
+      - /mnt/user/appdata/stirling-pdf/tailscale:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    networks:
+      - stirling-internal
+
+  stirling-pdf:
+    image: frooodle/s-pdf:latest
+    container_name: stirling-pdf
+    restart: unless-stopped
+    depends_on:
+      - tailscale
+    network_mode: service:tailscale
+    environment:
+      - DOCKER_ENABLE_SECURITY=false
+      - INSTALL_BOOK_AND_ADVANCED_HTML_OPS=false
+      - LANGS=en_US
+    volumes:
+      - /mnt/user/appdata/stirling-pdf/configs:/configs
+      - /mnt/user/appdata/stirling-pdf/logs:/logs
+    labels:
+      - traefik.enable=false
+
+networks:
+  stirling-internal:
+    driver: bridge
