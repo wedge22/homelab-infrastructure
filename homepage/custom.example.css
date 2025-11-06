@@ -1,429 +1,235 @@
-/* Edgerunners Anime Style CSS */
-/* Colors: #FFFF00 (Electric Yellow), #FF0080 (Hot Pink), #00FFFF (Cyan), #FF6600 (Orange), #8A2BE2 (Purple) */
+/* Clean Homelab Dashboard Theme */
+/* Professional color palette: Blues, Grays, and Subtle Accents */
 
-/* Matrix-style text glow effects with Edgerunners colors */
+:root {
+    --primary-blue: #3b82f6;
+    --secondary-blue: #2563eb;
+    --accent-cyan: #06b6d4;
+    --bg-dark: #0f172a;
+    --bg-card: #1e293b;
+    --bg-card-hover: #334155;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border-color: #334155;
+    --shadow-sm: rgba(0, 0, 0, 0.1);
+    --shadow-md: rgba(0, 0, 0, 0.2);
+    --shadow-lg: rgba(0, 0, 0, 0.3);
+}
+
+/* Clean text styling */
 .text-theme-900, .text-theme-800 {
-    color: #FFFF00;
-    text-shadow: 
-        0 0 5px #FFFF00, 
-        0 0 10px #FFFF00, 
-        0 0 15px #FFFF00,
-        0 0 20px #FF6600;
-    animation: edgerunnersTextGlow 1.5s ease-in-out infinite alternate;
+    color: var(--text-primary);
+    transition: color 0.2s ease;
 }
 
-@keyframes edgerunnersTextGlow {
-    from { 
-        text-shadow: 
-            0 0 5px #FFFF00, 
-            0 0 10px #FFFF00, 
-            0 0 15px #FFFF00,
-            0 0 20px #FF6600;
-    }
-    to { 
-        text-shadow: 
-            0 0 10px #FFFF00, 
-            0 0 20px #FFFF00, 
-            0 0 30px #FF6600,
-            0 0 40px #FF0080;
-    }
-}
-
-/* Neon border effects for service cards with Edgerunners style */
+/* Service and bookmark cards with professional styling */
 .service-card, .bookmark-card {
-    border: 2px solid #00FFFF;
-    box-shadow: 
-        0 0 10px #00FFFF,
-        0 0 20px rgba(0, 255, 255, 0.4),
-        inset 0 0 10px rgba(255, 255, 0, 0.1);
-    transition: all 0.3s ease;
-    background: linear-gradient(135deg, 
-        rgba(0, 0, 0, 0.8), 
-        rgba(138, 43, 226, 0.2),
-        rgba(0, 0, 0, 0.9));
+    background: linear-gradient(135deg, var(--bg-card), #1a2332);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
+    box-shadow: 0 2px 4px var(--shadow-sm);
+    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-}
-
-.service-card::before, .bookmark-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-        transparent, 
-        rgba(255, 255, 0, 0.1), 
-        transparent);
-    transition: left 0.5s;
-}
-
-.service-card:hover::before, .bookmark-card:hover::before {
-    left: 100%;
 }
 
 .service-card:hover, .bookmark-card:hover {
-    border-color: #FF0080;
+    border-color: var(--primary-blue);
     box-shadow: 
-        0 0 20px #FF0080,
-        0 0 30px rgba(255, 0, 128, 0.6),
-        0 0 40px rgba(255, 102, 0, 0.4),
-        inset 0 0 20px rgba(255, 0, 128, 0.2);
-    transform: translateY(-3px) scale(1.02);
-    background: linear-gradient(135deg, 
-        rgba(0, 0, 0, 0.7), 
-        rgba(255, 0, 128, 0.2),
-        rgba(255, 102, 0, 0.1));
+        0 4px 12px var(--shadow-md),
+        0 0 0 1px var(--primary-blue);
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, var(--bg-card-hover), #243447);
 }
 
-/* Enhanced error states with hot pink */
+/* Error states with professional red accent */
 .service-card.error, .service-card[data-status="error"] {
-    border-color: #FF0080 !important;
-    box-shadow: 
-        0 0 20px #FF0080,
-        0 0 30px rgba(255, 0, 128, 0.8),
-        0 0 40px rgba(255, 0, 128, 0.6) !important;
-    animation: edgerunnersErrorPulse 0.8s infinite;
+    border-color: #ef4444 !important;
+    background: linear-gradient(135deg, #1e293b, #2d1a1f);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2) !important;
 }
 
-@keyframes edgerunnersErrorPulse {
-    0%, 100% { 
-        box-shadow: 
-            0 0 20px #FF0080,
-            0 0 30px rgba(255, 0, 128, 0.8),
-            0 0 40px rgba(255, 0, 128, 0.6);
-    }
-    50% { 
-        box-shadow: 
-            0 0 30px #FF0080,
-            0 0 50px rgba(255, 0, 128, 1),
-            0 0 70px rgba(255, 0, 128, 0.8);
-    }
-}
-
-/* Edgerunners glitch effect for headers */
+/* Clean header styling */
 .group-title, h1, h2 {
-    position: relative;
-    color: #FFFF00;
-    text-shadow: 
-        2px 0 0 #FF0080,
-        -2px 0 0 #00FFFF,
-        0 0 10px #FFFF00;
-    animation: edgerunnersGlitch 2s infinite;
-    font-weight: bold;
+    color: var(--text-primary);
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
+    transition: color 0.2s ease;
 }
 
-@keyframes edgerunnersGlitch {
-    0%, 90%, 100% { 
-        transform: translate(0);
-        text-shadow: 
-            2px 0 0 #FF0080,
-            -2px 0 0 #00FFFF,
-            0 0 10px #FFFF00;
-    }
-    2% { 
-        transform: translate(-2px, 1px);
-        text-shadow: 
-            3px 0 0 #FF0080,
-            -3px 0 0 #00FFFF,
-            0 0 15px #FFFF00;
-    }
-    4% { 
-        transform: translate(2px, -1px);
-        text-shadow: 
-            -2px 0 0 #FF0080,
-            2px 0 0 #00FFFF,
-            0 0 15px #FF6600;
-    }
-    6% { transform: translate(0); }
-}
-
-/* Cyberpunk scrollbar with Edgerunners colors */
+/* Professional scrollbar */
 ::-webkit-scrollbar {
-    width: 12px;
+    width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #000000;
-    border: 2px solid #00FFFF;
-    border-radius: 6px;
+    background: var(--bg-dark);
+    border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #FFFF00, #FF0080, #00FFFF);
-    border-radius: 6px;
-    box-shadow: 
-        0 0 10px #FF0080,
-        inset 0 0 5px rgba(255, 255, 0, 0.5);
+    background: linear-gradient(180deg, var(--primary-blue), var(--secondary-blue));
+    border-radius: 5px;
+    transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #FF6600, #FF0080, #8A2BE2);
-    box-shadow: 
-        0 0 20px #FF0080,
-        inset 0 0 10px rgba(255, 102, 0, 0.7);
+    background: linear-gradient(180deg, var(--secondary-blue), var(--accent-cyan));
 }
 
-/* Enhanced pulsing status indicators */
+/* Clean status indicators */
 .status-indicator {
-    animation: edgerunnersPulse 1s infinite;
-}
-
-@keyframes edgerunnersPulse {
-    0% { 
-        opacity: 1; 
-        box-shadow: 0 0 5px #FFFF00;
-    }
-    50% { 
-        opacity: 0.7; 
-        box-shadow: 0 0 20px #FF0080;
-    }
-    100% { 
-        opacity: 1; 
-        box-shadow: 0 0 5px #00FFFF;
-    }
-}
-
-/* Edgerunners button effects */
-button, .button {
-    background: linear-gradient(45deg, #000000, #8A2BE2, #000000);
-    border: 2px solid #FFFF00;
-    color: #FFFF00;
-    text-shadow: 0 0 10px #FFFF00;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-
-button:hover, .button:hover {
-    background: linear-gradient(45deg, #FF0080, #FF6600, #FF0080);
-    border-color: #00FFFF;
-    color: #00FFFF;
-    text-shadow: 
-        0 0 10px #00FFFF,
-        0 0 20px #FF0080;
-    box-shadow: 
-        0 0 20px rgba(0, 255, 255, 0.6),
-        0 0 30px rgba(255, 0, 128, 0.4);
-    transform: scale(1.05);
-}
-
-/* Widget enhancements with Edgerunners style */
-.widget {
-    background: linear-gradient(135deg, 
-        rgba(0, 0, 0, 0.9), 
-        rgba(138, 43, 226, 0.3),
-        rgba(0, 0, 0, 0.9));
-    border: 2px solid #00FFFF;
-    border-radius: 12px;
-    backdrop-filter: blur(15px);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.widget::after {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, #FFFF00, #FF0080, #00FFFF, #FF6600);
-    border-radius: 12px;
-    z-index: -1;
-    opacity: 0;
     transition: opacity 0.3s ease;
 }
 
-.widget:hover::after {
-    opacity: 0.3;
+/* Professional button styling */
+button, .button {
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    border: 1px solid var(--primary-blue);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+}
+
+button:hover, .button:hover {
+    background: linear-gradient(135deg, var(--secondary-blue), var(--accent-cyan));
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    transform: translateY(-1px);
+}
+
+/* Widget styling with clean aesthetics */
+.widget {
+    background: linear-gradient(135deg, var(--bg-card), #1a2332);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px var(--shadow-sm);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
 }
 
 .widget:hover {
-    border-color: #FF0080;
-    box-shadow: 
-        0 0 30px rgba(255, 0, 128, 0.6),
-        0 0 50px rgba(255, 255, 0, 0.3);
+    border-color: var(--primary-blue);
+    box-shadow: 0 4px 16px var(--shadow-md);
     transform: translateY(-2px);
 }
 
-/* Enhanced greeting widget */
+/* Greeting widget with professional styling */
 .greeting, [data-testid="greeting"] {
-    color: #FFFF00;
-    text-shadow: 
-        0 0 20px #FFFF00,
-        2px 2px 0 #FF0080,
-        -2px -2px 0 #00FFFF;
-    background: linear-gradient(135deg, 
-        rgba(0, 0, 0, 0.8), 
-        rgba(255, 0, 128, 0.2),
-        rgba(255, 255, 0, 0.1),
-        rgba(0, 0, 0, 0.8));
-    border: 3px solid;
-    border-image: linear-gradient(45deg, #FFFF00, #FF0080, #00FFFF) 1;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--bg-card), #1a2e44);
+    border: 1px solid var(--primary-blue);
+    border-left: 4px solid var(--primary-blue);
     padding: 1.5rem;
-    border-radius: 12px;
+    border-radius: 8px;
     margin-bottom: 1rem;
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 2px 8px var(--shadow-sm);
 }
 
-.greeting::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #FFFF00, transparent);
-    animation: sweep 2s infinite;
-}
-
-@keyframes sweep {
-    0% { left: -100%; }
-    100% { left: 100%; }
-}
-
-/* Weather widget styling */
+/* Weather widget with blue accent */
 .openmeteo, [data-widget="openmeteo"] {
-    background: linear-gradient(135deg, 
-        rgba(255, 102, 0, 0.3), 
-        rgba(0, 0, 0, 0.8),
-        rgba(255, 0, 128, 0.2));
-    border: 2px solid #FF6600;
-    color: #FFFF00;
+    background: linear-gradient(135deg, #1a2e44, var(--bg-card));
+    border: 1px solid var(--accent-cyan);
+    color: var(--text-primary);
 }
 
-/* Resources widget styling */
+/* Resources widget with slate accent */
 .resources, [data-widget="resources"] {
-    background: linear-gradient(135deg, 
-        rgba(0, 255, 255, 0.2), 
-        rgba(0, 0, 0, 0.8),
-        rgba(138, 43, 226, 0.2));
-    border: 2px solid #00FFFF;
-    color: #00FFFF;
-}
-
-/* Enhanced scanline effect */
-.scanlines::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-        transparent 0%,
-        rgba(255, 255, 0, 0.05) 50%,
-        transparent 100%
-    );
-    background-size: 100% 3px;
-    animation: edgerunnersScanlines 0.08s linear infinite;
-    pointer-events: none;
-}
-
-@keyframes edgerunnersScanlines {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(3px); }
-}
-
-/* Network activity indicator with anime style */
-.network-active {
-    position: relative;
-}
-
-.network-active::after {
-    content: '◉';
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    color: #FF0080;
-    font-size: 16px;
-    animation: edgerunnersNetworkBlink 0.5s infinite;
-    text-shadow: 0 0 15px #FF0080;
-}
-
-@keyframes edgerunnersNetworkBlink {
-    0%, 50% { 
-        opacity: 1; 
-        transform: scale(1);
-    }
-    51%, 100% { 
-        opacity: 0.3; 
-        transform: scale(1.2);
-    }
+    background: linear-gradient(135deg, #1a2332, var(--bg-card));
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
 }
 
 /* Overall page styling */
 body {
-    background: 
-        radial-gradient(ellipse at top, rgba(255, 0, 128, 0.1) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-        linear-gradient(135deg, #000000, #1a0033, #000000);
-    color: #FFFF00;
+    background: linear-gradient(135deg, var(--bg-dark) 0%, #1a2332 50%, var(--bg-dark) 100%);
+    color: var(--text-primary);
     min-height: 100vh;
 }
 
-/* Service group headers */
+/* Service group headers with clean styling */
 .group-header, .section-header {
-    color: #FF0080;
-    text-shadow: 
-        0 0 20px #FF0080,
-        2px 0 0 #FFFF00,
-        -2px 0 0 #00FFFF;
-    border-bottom: 3px solid;
-    border-image: linear-gradient(90deg, #FF0080, #FFFF00, #00FFFF) 1;
-    background: linear-gradient(90deg, 
-        rgba(255, 0, 128, 0.3), 
-        rgba(255, 255, 0, 0.1),
-        transparent);
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--primary-blue);
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), transparent);
     padding: 1rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
 }
 
-/* Bookmark styling */
+/* Bookmark styling with clean hover effect */
 .bookmark {
-    background: linear-gradient(135deg, 
-        rgba(0, 0, 0, 0.8), 
-        rgba(0, 255, 255, 0.2),
-        rgba(255, 102, 0, 0.1));
-    border: 2px solid #00FFFF;
+    background: linear-gradient(135deg, var(--bg-card), #1a2332);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
     transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.bookmark::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 0;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 0, 0.3));
-    transition: width 0.3s ease;
-}
-
-.bookmark:hover::before {
-    width: 100%;
+    padding: 1rem;
 }
 
 .bookmark:hover {
-    border-color: #FFFF00;
-    box-shadow: 
-        0 0 20px rgba(255, 255, 0, 0.6),
-        0 0 30px rgba(255, 0, 128, 0.4);
-    background: linear-gradient(135deg, 
-        rgba(0, 0, 0, 0.7), 
-        rgba(255, 255, 0, 0.2),
-        rgba(255, 0, 128, 0.1));
-    transform: scale(1.02);
+    border-color: var(--accent-cyan);
+    background: linear-gradient(135deg, var(--bg-card-hover), #243447);
+    box-shadow: 0 4px 12px var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+/* Link styling */
+a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--accent-cyan);
+}
+
+/* Card content text */
+.service-description, .widget-label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Status badges */
+.badge {
+    background: var(--primary-blue);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.badge.success {
+    background: #10b981;
+}
+
+.badge.warning {
+    background: #f59e0b;
+}
+
+.badge.error {
+    background: #ef4444;
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .service-card, .bookmark-card, .widget {
+        margin-bottom: 1rem;
+    }
+    
+    .group-header, .section-header {
+        padding: 0.75rem;
+        font-size: 0.875rem;
+    }
 }

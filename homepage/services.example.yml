@@ -1,109 +1,109 @@
 ---
-- net.ops:
-    - Docker Dome:
+- Network Operations:
+    - Container Manager:
         icon: portainer.svg
         href: "{{HOMEPAGE_VAR_PORTAINER_URL}}"
-        description: container command center
+        description: Docker container management
 
-- signal.core:
-    - BlackBox:
+- Core Services:
+    - DNS Filter:
         icon: pi-hole.svg
         href: "ADD_PIHOLE_IP"
-        description: DNS sinkhole
+        description: Network-wide ad blocking
 
-    - Gatekeeper:
+    - Reverse Proxy:
         icon: traefik.svg
         href: "{{HOMEPAGE_VAR_TRAEFIK_URL}}"
-        description: reverse proxy mesh
+        description: Traffic routing and SSL management
         #widget:
         #  type: traefik
         #  url: "{{HOMEPAGE_VAR_TRAEFIK_API}}"
 
-    - StatusNet:
+    - Uptime Monitor:
         icon: uptime-kuma.svg
         href: "ADD_UPTIME_URL_DASHBOARD"
-        description: system health monitor
+        description: Service availability monitoring
         widget:
             type: uptimekuma
             url: "ADD_UPTIME_URL"
             slug: "default"
 
-- test.net:
-    - XyzTest:
+- Testing:
+    - Test Service:
         icon: mdi-test-tube
         description: "{{PIHOLE_URL}}"
         href: "ADD_PIHOLE_IP
 
-- data.vault:
-    - NetForge:
+- Storage:
+    - Storage Server:
         icon: unraid.svg
         href: "{{HOMEPAGE_VAR_UNRAID_URL}}"
-        description: data control forge
+        description: Network attached storage
 
-- media.stream:
-    - NeuroStream:
+- Media Services:
+    - Media Server:
         icon: plex.svg
         href: "{{HOMEPAGE_VAR_PLEX_URL}}"
-        description: media relay core
+        description: Streaming media server
 
-    - StatWatch:
+    - Media Statistics:
         icon: tautulli.svg
         href: "{{HOMEPAGE_VAR_TAUTULLI_URL}}"
-        description: stream telemetry
+        description: Media server statistics and monitoring
         widget:
             type: tautulli
             url: "{{HOMEPAGE_VAR_TAUTULLI_INTERNAL_URL}}"
             key: "{{HOMEPAGE_VAR_TAUTULLI_API_KEY}}"
 
-    - CitizenReq:
+    - Media Requests:
         icon: overseerr.svg
         href: "{{HOMEPAGE_VAR_OVERSEERR_URL}}"
-        description: media requisition portal
+        description: Media request management
 
-    - SignalHound:
+    - TV Series Manager:
         icon: sonarr.svg
         href: "{{HOMEPAGE_VAR_SONARR_URL}}"
-        description: episodic net sniffing
+        description: Automated TV series management
         widget:
             type: sonarr
             url: "{{HOMEPAGE_VAR_SONARR_INTERNAL_URL}}"
             key: "{{HOMEPAGE_VAR_SONARR_API_KEY}}"
 
-    - CineCore:
+    - Movie Manager:
         icon: radarr.svg
         href: "{{HOMEPAGE_VAR_RADARR_URL}}"
-        description: film acquisition unit
+        description: Automated movie management
         widget:
             type: radarr
             url: "{{HOMEPAGE_VAR_RADARR_INTERNAL_URL}}"
             key: "{{HOMEPAGE_VAR_RADARR_API_KEY}}"
 
-    - Soundwave:
+    - Music Manager:
         icon: lidarr.svg
         href: "{{HOMEPAGE_VAR_LIDARR_URL}}"
-        description: music index core
+        description: Automated music library management
 
-    - DronePort:
+    - Download Client:
         icon: sabnzbd.svg
         href: "{{HOMEPAGE_VAR_SABNZBD_URL}}"
-        description: auto-download port
+        description: Usenet download client
         widget:
             type: sabnzbd
             url: "{{HOMEPAGE_VAR_SABNZBD_INTERNAL_URL}}"
             key: "{{HOMEPAGE_VAR_SABNZBD_API_KEY}}"
 
-    - HydraNode:
+    - Indexer Manager:
         icon: nzbhydra2.svg
         href: "{{HOMEPAGE_VAR_NZBHYDRA2_URL}}"
-        description: index crawler
+        description: Usenet indexer aggregator
 
-- system.control:
-    - TaskNet:
+- Automation:
+    - Workflow Automation:
         icon: n8n.svg
         href: "{{HOMEPAGE_VAR_N8N_URL}}"
-        description: process automation node
+        description: Task automation workflows
 
-    - MineNet:
+    - Minecraft Server:
         icon: minecraft.svg
         href: "{{HOMEPAGE_VAR_CRAFTY_URL}}"
-        description: minecraft automation node
+        description: Minecraft server management

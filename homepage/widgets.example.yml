@@ -1,7 +1,7 @@
 # For configuration options and examples, please see:
 
 - resources:
-    label: "SYSTEM CORE // RESOURCE MATRIX"
+    label: System Resources
     cpu: true
     memory: true
     disk: /
@@ -24,14 +24,14 @@
 
 - greeting:
     text_size: xl
-    text: "NEURAL LINK ESTABLISHED // SYSTEM ONLINE"
+    text: "Welcome to your Homelab"
 
 - search:
     provider: duckduckgo
     target: _blank
 
 - openmeteo:
-    label: "ATMOSPHERIC DATA //THE GRID"
+    label: Weather
     latitude: 49.2827
     longitude: -122.7947
     timezone: America/CityName

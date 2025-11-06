@@ -21,7 +21,7 @@ services:
       - PGID=100
       - TZ=America/Vancouver
       - HOMEPAGE_ALLOWED_HOSTS=${HOMEPAGE_ALLOWED_HOSTS}
-      - HOMEPAGE_VAR_TITLE=The Construct
+      - HOMEPAGE_VAR_TITLE=Homelab Dashboard
       # NEW: Use docker socket proxy instead of direct socket access
       - DOCKER_HOST=tcp://dockersocket:2375
     volumes:

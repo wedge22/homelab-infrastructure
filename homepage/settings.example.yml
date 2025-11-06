@@ -1,4 +1,4 @@
-title: NETFORGE // Edgerunners Matrix
+title: Homelab Dashboard
 
 background:
   image: ADD_IMAGE_URL
@@ -8,32 +8,32 @@ background:
   opacity: 30
 
 theme: dark
-color: yellow
+color: slate
 
 useEqualHeights: true
 
 layout:
-  net.ops:
+  Network Operations:
     header: true
     style: row
     columns: 4
-  signal.core:
+  Core Services:
     header: true
     style: row
     columns: 4
-  test.net:
+  Testing:
     header: true
     style: row
     columns: 4
-  data.vault:
+  Storage:
     header: true
     style: row
     columns: 4
-  media.stream:
+  Media Services:
     header: true
     style: row
     columns: 4
-  system.control:
+  Automation:
     header: true
     style: row
     columns: 4

@@ -1,6 +1,6 @@
-# 🌐 NETFORGE Control Matrix
+# Homelab Infrastructure
 
-> *A cyberpunk-themed homelab infrastructure deployment using Unraid, Portainer, and Docker Compose*
+> *A homelab infrastructure deployment using Docker Compose and container orchestration*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-cyan.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-Compose-blue.svg)](#)
@@ -9,11 +9,11 @@
 
 ## 🎯 Overview
 
-NETFORGE Control Matrix is a cyberpunk-themed homelab infrastructure template featuring a custom dashboard and containerized services. This repository provides Docker Compose configurations and automation scripts for deploying a complete media automation and monitoring ecosystem.
+This repository provides a homelab infrastructure template featuring a custom dashboard and containerized services. It includes Docker Compose configurations and automation scripts for deploying a complete media automation and monitoring ecosystem.
 
 ### ✨ Key Features
 
-- **🎨 Cyberpunk-themed Homepage Dashboard** with custom CSS and JavaScript
+- **🎨 Custom Homepage Dashboard** with custom CSS and JavaScript
 - **📦 Hybrid Deployment Strategy**: Critical infrastructure and application containers
 - **🔒 Security-First Design** with authentication, reverse proxy, and monitoring
 - **🎬 Complete Media Automation** with download management and streaming
@@ -26,7 +26,7 @@ NETFORGE Control Matrix is a cyberpunk-themed homelab infrastructure template fe
 ### Infrastructure Overview
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    NETFORGE CONTROL MATRIX                  │
+│                    HOMELAB INFRASTRUCTURE                    │
 ├─────────────────────────────────────────────────────────────┤
 │  🌐 External Access: Reverse Proxy + SSL                   │
 │  🔒 Security Layer: Authentication + IPS + DNS Filtering   │
@@ -63,7 +63,7 @@ NETFORGE Control Matrix is a cyberpunk-themed homelab infrastructure template fe
 ### 📦 Portainer Stacks
 | Stack Name | Services | Description |
 |------------|----------|-------------|
-| **homepage** | Homepage Dashboard | Cyberpunk-themed control center |
+| **homepage** | Homepage Dashboard | Custom control center |
 | **crafty** | Minecraft Server Manager | Game server automation |
 | **overseerr** | Media Request Manager | User-friendly media requests |
 | **sabnzbd** | NZB Downloader | Usenet download client |
@@ -99,8 +99,8 @@ NETFORGE Control Matrix is a cyberpunk-themed homelab infrastructure template fe
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/netforge-control-matrix.git
-   cd netforge-control-matrix
+   git clone https://github.com/yourusername/homelab-infrastructure.git
+   cd homelab-infrastructure
    ```
 
 2. **Configure environment variables**
@@ -139,26 +139,6 @@ DNS Configuration:
 dashboard.yourdomain.local → [SERVER-IP]
 media.yourdomain.local → [SERVER-IP]
 requests.yourdomain.local → [SERVER-IP]
-```
-
-## 🎨 Cyberpunk Theme
-
-The NETFORGE dashboard features a custom cyberpunk aesthetic:
-
-- **🌈 Neon Color Palette**: Cyan, Hot Pink, Deep Purple accents
-- **✨ Dynamic Effects**: Text glow, hover animations, glitch effects  
-- **🔮 Interactive Elements**: Pulsing indicators, scanline effects
-- **🎯 Matrix-inspired Design**: Futuristic service naming conventions
-
-### Color Scheme
-```css
-:root {
-  --cyber-cyan: #0abdc6;      /* Primary accent */
-  --cyber-pink: #ea00d9;      /* Secondary accent */
-  --cyber-purple: #711c91;    /* Tertiary accent */
-  --cyber-navy: #133e7c;      /* Background accent */
-  --cyber-dark: #091833;      /* Deep background */
-}
 ```
 
 ## 🔐 Security Features
@@ -221,7 +201,7 @@ Services are accessed through:
 
 ### Development Guidelines
 - Use environment variables for all configuration
-- Follow cyberpunk naming conventions
+- Follow consistent naming conventions
 - Test in development environments
 - Update documentation for changes
 
@@ -234,7 +214,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **LinuxServer Community** - Quality container images
 - **Container Management Platforms** - Orchestration solutions
 - **Open Source Community** - Ecosystem contributions
-- **Cyberpunk Aesthetic** - Visual inspiration
 
 ## 📞 Support
 
@@ -246,8 +225,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**🌐 NETFORGE Control Matrix 🌐**
+**Homelab Infrastructure**
 
-*A template for cyberpunk-themed homelab infrastructure*
+*A template for containerized homelab infrastructure*
 
 </div>
