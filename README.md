@@ -1,232 +1,149 @@
 # Homelab Infrastructure
 
-> *A homelab infrastructure deployment using Docker Compose and container orchestration*
+Docker Compose configurations for a self-hosted homelab infrastructure with media automation, monitoring, and security services.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-cyan.svg)](LICENSE)
-[![Docker](https://img.shields.io/badge/Docker-Compose-blue.svg)](#)
-[![Platform](https://img.shields.io/badge/Platform-NAS-orange.svg)](#)
-[![Management](https://img.shields.io/badge/Management-Containers-13BEF9.svg)](#)
 
-## 🎯 Overview
+## Overview
 
-This repository provides a homelab infrastructure template featuring a custom dashboard and containerized services. It includes Docker Compose configurations and automation scripts for deploying a complete media automation and monitoring ecosystem.
+This repository contains Docker Compose configurations for deploying containerized services on a homelab server. Services are organized into core infrastructure (deployed directly on the platform) and application stacks (managed via Portainer).
 
-### ✨ Key Features
+### Features
 
-- **🎨 Custom Homepage Dashboard** with custom CSS and JavaScript
-- **📦 Hybrid Deployment Strategy**: Critical infrastructure and application containers
-- **🔒 Security-First Design** with authentication, reverse proxy, and monitoring
-- **🎬 Complete Media Automation** with download management and streaming
-- **📊 Comprehensive Monitoring** with uptime tracking and analytics
-- **🔄 Automated Backup Systems** with multiple destination support
-- **🌐 Custom DNS Integration** for internal service resolution
+- Custom homepage dashboard with CSS and JavaScript customization
+- Media automation stack (Sonarr, Radarr, Lidarr, SABnzbd)
+- Request management via Overseerr
+- Uptime monitoring and analytics
+- Automated backups with Restic
+- Multi-factor authentication with Authelia
+- Intrusion prevention with CrowdSec
 
-## 🏗️ Architecture
+## Architecture
 
-### Infrastructure Overview
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    HOMELAB INFRASTRUCTURE                    │
-├─────────────────────────────────────────────────────────────┤
-│  🌐 External Access: Reverse Proxy + SSL                   │
-│  🔒 Security Layer: Authentication + IPS + DNS Filtering   │
-│  📊 Management: Container Orchestration + Dashboard         │
-│  🎬 Media Stack: Streaming + Automation + Request Portal   │
-│  💾 Data Layer: Databases + Caching + Storage              │
-│  🔄 Backup: Multi-destination Encrypted Backups           │
-│  🖥️  Base Platform: NAS Server Infrastructure              │
-└─────────────────────────────────────────────────────────────┘
-```
+**Deployment Strategy:**
+- Core infrastructure services deployed directly on NAS platform
+- Application services deployed as Portainer stacks
+- Services communicate over isolated Docker networks
+- Access controlled via reverse proxy and authentication
 
-### Deployment Strategy
-- **Core Infrastructure**: Direct platform deployment for stability
-- **Applications**: Container orchestration for flexibility
-- **Custom Network**: Isolated container networking
-- **Internal DNS**: Custom domain resolution for services
+## Services
 
-## 🚀 Service Categories
+### Core Infrastructure
+| Service | Purpose |
+|---------|---------|
+| Traefik | Reverse proxy and SSL termination |
+| Portainer | Container management |
+| Authelia | Multi-factor authentication and SSO |
+| MariaDB | Primary database |
+| PostgreSQL | Secondary database |
+| Redis | Session store and caching |
+| Plex | Media streaming |
+| CloudFlared | Secure tunnel service |
+| CrowdSec | Intrusion prevention |
+| DockerSocket | Docker API proxy |
 
-### 🎮 Core Infrastructure (Platform Direct)
-| Service | Purpose | Access |
-|---------|---------|---------|
-| **Traefik** | Reverse proxy and SSL termination | Internal |
-| **Portainer** | Container management platform | Web Interface |
-| **Authelia** | Authentication and authorization | Internal |
-| **MariaDB** | Primary database server | Internal |
-| **PostgreSQL** | Secondary database server | Internal |
-| **Redis** | Session store and caching | Internal |
-| **Plex** | Media streaming server | Web Interface |
-| **CloudFlared** | Secure tunnel service | Internal |
-| **CrowdSec** | Intrusion prevention system | Internal |
-| **DockerSocket** | Docker API proxy | Internal |
+### Application Stacks
+| Service | Purpose |
+|---------|---------|
+| Homepage | Custom dashboard |
+| Overseerr | Media request management |
+| SABnzbd | Usenet download client |
+| Sonarr | TV show automation |
+| Sonarr-Anime | Anime automation |
+| Radarr | Movie automation |
+| Lidarr | Music automation |
+| NZBHydra2 | Usenet indexer aggregator |
+| Tautulli | Plex analytics |
+| Uptime Kuma | Service monitoring |
+| Maintainerr | Media library cleanup |
+| Restic | Encrypted backups |
+| Adminer | Database administration |
+| Tailscale | VPN mesh networking |
+| Home Assistant | Home automation |
+| Crafty | Minecraft server manager |
 
-### 📦 Portainer Stacks
-| Stack Name | Services | Description |
-|------------|----------|-------------|
-| **homepage** | Homepage Dashboard | Custom control center |
-| **crafty** | Minecraft Server Manager | Game server automation |
-| **overseerr** | Media Request Manager | User-friendly media requests |
-| **sabnzbd** | NZB Downloader | Usenet download client |
-| **sonarr** | TV Show Manager | Automated TV show acquisition |
-| **sonarr-anime** | Anime Manager | Specialized anime automation |
-| **radarr** | Movie Manager | Automated movie acquisition |
-| **lidarr-portainer** | Music Manager | Music collection automation |
-| **nzbhydra2** | NZB Indexer Aggregator | Usenet indexer management |
-| **tautulli-portainer** | Plex Analytics | Media consumption statistics |
-| **uptime_kuma** | Uptime Monitoring | Service availability tracking |
-| **maintainerr-portainer** | Media Cleanup | Automated media management |
-| **restic** | Backup Solution | Multi-destination backup system |
-| **adminer** | Database Administration | Web-based database management |
-| **tailscale** | VPN Mesh Networking | Secure remote access |
-| **homeassistant** | Home Automation Hub | Smart home control center |
-
-### 🔒 Security Services
-- **Authelia**: Multi-factor authentication and SSO
-- **CrowdSec**: Intrusion detection and prevention system
-- **CloudFlared**: Secure tunnel for external access  
-- **Traefik**: SSL termination with automatic certificates
-
-## 🛠️ Installation & Setup
+## Installation
 
 ### Prerequisites
-- **NAS Platform** (Unraid, TrueNAS, etc.)
-- **Docker** and **Docker Compose**
-- **Container Management** (Portainer recommended)
-- **Custom Domain** or local DNS setup
-- **Reverse Proxy** solution
+- NAS platform (Unraid, TrueNAS, etc.) or Linux server
+- Docker and Docker Compose
+- Portainer (recommended for stack management)
+- Custom domain or local DNS
 
-### Quick Start
+### Setup
 
-1. **Clone the repository**
+1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/homelab-infrastructure.git
    cd homelab-infrastructure
    ```
 
-2. **Configure environment variables**
-   ```bash
-   cp .env.example .env
-   # Edit .env with your specific values
-   ```
+2. Configure environment variables for each service (see `.env.example` files)
 
-3. **Set up security hooks**
-   ```bash
-   chmod +x .githooks/pre-commit
-   git config core.hooksPath .githooks
-   ```
-
-4. **Deploy infrastructure services**
-   - Reverse proxy (Traefik/Nginx)
+3. Deploy core infrastructure services first:
+   - Reverse proxy (Traefik)
    - Container management (Portainer)
-   - Authentication system
-   - Database services
+   - Authentication (Authelia)
+   - Databases (MariaDB, PostgreSQL, Redis)
 
-5. **Deploy application stacks**
-   - Import stack configurations
-   - Configure environment variables
-   - Deploy in dependency order
+4. Deploy application stacks via Portainer or Docker Compose
 
-### Network Configuration
+5. Configure DNS records to point service domains to your server IP
 
-Example Docker network setup:
-```bash
-docker network create --driver bridge custom-network
-```
+## Security
 
-DNS Configuration:
-```
-# Add to your DNS server
-dashboard.yourdomain.local → [SERVER-IP]
-media.yourdomain.local → [SERVER-IP]
-requests.yourdomain.local → [SERVER-IP]
-```
+### Features
+- Multi-factor authentication via Authelia
+- SSL/TLS termination with automatic certificate management
+- Intrusion prevention with CrowdSec
+- Secure tunnel access via CloudFlared
+- Pre-commit hooks to prevent committing secrets
 
-## 🔐 Security Features
+### Pre-commit Hooks
 
-### Multi-layered Security
-1. **Network Level**: DNS filtering and intrusion prevention
-2. **Application Level**: Multi-factor authentication
-3. **Transport Level**: SSL/TLS encryption
-4. **Development Level**: Pre-commit security scanning
-
-### Security Scanning
-Automated pre-commit hooks scan for:
-- Hardcoded secrets and API keys
+The repository includes security scanning to detect:
+- API keys and credentials
 - Exposed configuration details
-- Security misconfigurations
 - Potential information disclosure
 
-## 📊 Monitoring & Backup
+Enable hooks:
+```bash
+chmod +x .githooks/pre-commit
+git config core.hooksPath .githooks
+```
 
-### Health Monitoring
-- **Service Availability**: Uptime monitoring and alerting
-- **Usage Analytics**: Media consumption and system metrics
-- **Real-time Status**: Dashboard widgets and indicators
+## Monitoring & Backup
 
-### Backup Strategy
-- **Encrypted Backups**: Multiple destination support
-- **Configuration Management**: Git-based version control
-- **Automated Validation**: Regular backup testing
+- **Uptime Kuma**: Service availability monitoring and alerting
+- **Tautulli**: Plex media consumption analytics
+- **Restic**: Encrypted backups to multiple destinations
+- **Homepage**: Centralized dashboard with service status
 
-## 🌐 Service Access
+## Configuration
 
-Services are accessed through:
-- **Internal Dashboard**: Centralized control interface
-- **Custom DNS**: Local domain resolution
-- **Reverse Proxy**: SSL termination and routing
-- **Authentication**: Secure access control
+Each service directory contains a `docker-compose.yml` file. Services requiring environment variables include `.env.example` files in their respective directories.
 
-## 📚 Documentation
+### Homepage Dashboard
 
-> 📝 **Coming Soon** - Detailed documentation is currently being developed
+The homepage service includes example configuration files:
+- `settings.example.yml` - Dashboard settings
+- `services.example.yml` - Service definitions
+- `widgets.example.yml` - Dashboard widgets
+- `custom.example.css` - Custom styling
+- `custom.example.js` - Custom JavaScript
 
-- **[Installation Guide](docs/installation.md)** - Complete setup instructions *(Coming Soon)*
-- **[Configuration Reference](docs/configuration.md)** - Service configuration details *(Coming Soon)*
-- **[Security Guide](docs/security.md)** - Security best practices *(Coming Soon)*
-- **[Backup Guide](docs/backup.md)** - Data protection strategies *(Coming Soon)*
-- **[Troubleshooting](docs/troubleshooting.md)** - Common issues and solutions *(Coming Soon)*
+## Contributing
 
-### External Resources
-- **[Your NAS Platform Documentation](docs/platform-setup.md)** - Platform-specific guides *(Coming Soon)*
-- **[Container Management Docs](docs/container-management.md)** - Orchestration platform documentation *(Coming Soon)*
-- **[Reverse Proxy Configuration](docs/reverse-proxy.md)** - SSL and routing setup guides *(Coming Soon)*
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Open a Pull Request
 
-## 🤝 Contributing
+Guidelines:
+- Use environment variables for sensitive configuration
+- Test changes in a development environment
+- Follow existing naming conventions
 
-1. **Fork** the repository
-2. **Create** a feature branch
-3. **Commit** your changes
-4. **Push** to the branch
-5. **Open** a Pull Request
-
-### Development Guidelines
-- Use environment variables for all configuration
-- Follow consistent naming conventions
-- Test in development environments
-- Update documentation for changes
-
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **LinuxServer Community** - Quality container images
-- **Container Management Platforms** - Orchestration solutions
-- **Open Source Community** - Ecosystem contributions
-
-## 📞 Support
-
-- **Documentation**: Check the `docs/` directory
-- **Issues**: GitHub Issues for bugs and features
-- **Discussions**: GitHub Discussions for questions
-
----
-
-<div align="center">
-
-**Homelab Infrastructure**
-
-*A template for containerized homelab infrastructure*
-
-</div>
