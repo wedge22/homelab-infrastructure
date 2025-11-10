@@ -1,0 +1,41 @@
+services:
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: audiobookshelf-tailscale
+    hostname: audiobooks
+    restart: unless-stopped
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/audiobookshelf.json
+      - TS_USERSPACE=true
+      - TS_EXTRA_ARGS=--advertise-tags=tag:container
+    volumes:
+      - /mnt/user/appdata/audiobookshelf/ts-state:/var/lib/tailscale
+      - /mnt/user/appdata/audiobookshelf/ts-config:/config
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    networks:
+      - audiobookshelf-internal
+
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    container_name: audiobookshelf
+    restart: unless-stopped
+    depends_on:
+      - tailscale
+    network_mode: service:tailscale
+    environment:
+      - PUID=99
+      - PGID=100
+      - TZ=America/Vancouver
+    volumes:
+      - /mnt/user/appdata/audiobookshelf/config:/config
+      - /mnt/user/appdata/audiobookshelf/metadata:/metadata
+      - /mnt/user/media/Audiobooks:/audiobooks
+
+networks:
+  audiobookshelf-internal:
+    driver: bridge
