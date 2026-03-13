@@ -13,8 +13,8 @@ services:
       - traefik.http.routers.sonarr-anime.middlewares=auth@file
       - external=true
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=99
+      - PGID=100
       - TZ=America/Vancouver
     volumes:
       - /mnt/user/appdata/sonarr-anime:/config
