@@ -1,0 +1,44 @@
+services:
+  alloy:
+    image: grafana/alloy:latest
+    container_name: alloy
+    restart: unless-stopped
+    environment:
+      - TZ=America/Los_Angeles
+      - LOG_LEVEL=info
+      - HOSTNAME=unraid-server
+      - DISABLE_REPORTING=true
+      - GCLOUD_FM_COLLECTOR_ID={GCLOUD_FM_COLLECTOR_ID}
+      - GCLOUD_FM_API_KEY={GCLOUD_FM_API_KEY}
+    ports:
+      # Alloy web UI for monitoring and debugging
+      - "12345:12345"
+      # OTLP HTTP receiver for metrics from Traefik
+      - "4318:4318"
+      # OTLP gRPC receiver (optional, for future use)
+      - "4317:4317"
+      # Port 5514 for syslog from unraid
+      - "5514:5514/udp"
+    volumes:
+      # Persistent storage for Alloy data
+      - /mnt/user/appdata/alloy:/var/lib/alloy/data
+      # Mount config file (create this file first)
+      - /mnt/user/appdata/alloy/config.alloy:/etc/alloy/config.alloy:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/host/root:ro
+    pid: host
+    command:
+      - "run"
+      - "--server.http.listen-addr=0.0.0.0:12345"
+      - "--storage.path=/var/lib/alloy/data"
+      - "--stability.level=experimental"
+      - "/etc/alloy/config.alloy"
+    networks:
+      - jarvis
+    labels:
+      - traefik.enable=false
+
+networks:
+  jarvis:
+    external: true
