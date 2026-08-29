@@ -1,5 +1,6 @@
 services:
   # TIER 1: Critical daily backups (small, fast)
+  # REQUIRED VARS: RESTIC_PASSWORD, BACKUP_DISK_PATH (Unraid disk for backup storage), RESTIC_GCS_BUCKET (GCS bucket name for cloud backup)
   backup-critical:
     image: mazzolino/restic
     container_name: restic-critical
@@ -22,9 +23,9 @@ services:
         --keep-monthly 12    # 1 year
       TZ: America/Vancouver
     volumes:
-      - /mnt/disks/2K1920038014/critical:/restic/critical
-      - /mnt/disks/2K1920038014/cache:/cache
-      - /mnt/disks/2K1920038014/tmp-for-restore:/tmp-for-restore
+      - ${BACKUP_DISK_PATH}/critical:/restic/critical
+      - ${BACKUP_DISK_PATH}/cache:/cache
+      - ${BACKUP_DISK_PATH}/tmp-for-restore:/tmp-for-restore
       # Critical folders only
       - /mnt/user/appdata/Authelia:/mnt/critical/Authelia:ro
       - /mnt/user/appdata/NginxProxyManager:/mnt/critical/NginxProxyManager:ro
@@ -87,8 +88,8 @@ services:
         --keep-monthly 6    
       TZ: America/Vancouver
     volumes:
-      - /mnt/disks/2K1920038014/configs:/restic/configs
-      - /mnt/disks/2K1920038014/cache:/cache
+      - ${BACKUP_DISK_PATH}/configs:/restic/configs
+      - ${BACKUP_DISK_PATH}/cache:/cache
       # Application config folders
       - /mnt/user/appdata/overseerr:/mnt/configs/overseerr:ro
       - /mnt/user/appdata/prowlarr:/mnt/configs/prowlarr:ro
@@ -132,8 +133,8 @@ services:
         --keep-monthly 12
       TZ: America/Vancouver
     volumes:
-      - /mnt/disks/2K1920038014/critical:/restic/critical
-      - /mnt/disks/2K1920038014/cache:/cache
+      - ${BACKUP_DISK_PATH}/critical:/restic/critical
+      - ${BACKUP_DISK_PATH}/cache:/cache
     security_opt:
       - no-new-privileges:true
     networks:
@@ -158,8 +159,8 @@ services:
         --keep-monthly 6
       TZ: America/Vancouver
     volumes:
-      - /mnt/disks/2K1920038014/configs:/restic/configs
-      - /mnt/disks/2K1920038014/cache:/cache
+      - ${BACKUP_DISK_PATH}/configs:/restic/configs
+      - ${BACKUP_DISK_PATH}/cache:/cache
     security_opt:
       - no-new-privileges:true
     networks:
@@ -181,8 +182,8 @@ services:
         --read-data-subset=5%
       TZ: America/Vancouver
     volumes:
-      - /mnt/disks/2K1920038014/critical:/restic/critical
-      - /mnt/disks/2K1920038014/cache:/cache
+      - ${BACKUP_DISK_PATH}/critical:/restic/critical
+      - ${BACKUP_DISK_PATH}/cache:/cache
     security_opt:
       - no-new-privileges:true
     networks:
@@ -204,8 +205,8 @@ services:
         --read-data-subset=5%
       TZ: America/Vancouver
     volumes:
-      - /mnt/disks/2K1920038014/configs:/restic/configs
-      - /mnt/disks/2K1920038014/cache:/cache
+      - ${BACKUP_DISK_PATH}/configs:/restic/configs
+      - ${BACKUP_DISK_PATH}/cache:/cache
     security_opt:
       - no-new-privileges:true
     networks:
@@ -220,7 +221,7 @@ services:
     environment:
       RUN_ON_STARTUP: "false"
       BACKUP_CRON: "0 4 * * 0"  # Weekly on Sunday at 4 AM
-      RESTIC_REPOSITORY: "gs:ksh-unraid-backups:/restic-critical"
+      RESTIC_REPOSITORY: "gs:${RESTIC_GCS_BUCKET}:/restic-critical"  # Replace with your GCS bucket name
       RESTIC_PASSWORD: ${RESTIC_PASSWORD}
       RESTIC_CACHE_DIR: /cache
       RESTIC_BACKUP_SOURCES: /mnt/critical
@@ -234,7 +235,7 @@ services:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials/gcs-key.json
       TZ: America/Vancouver
     volumes:
-      - /mnt/disks/2K1920038014/cache:/cache
+      - ${BACKUP_DISK_PATH}/cache:/cache
       - /mnt/user/appdata/restic/credentials:/credentials:ro
       - /mnt/user/appdata/Authelia:/mnt/critical/Authelia:ro
       - /mnt/user/appdata/NginxProxyManager:/mnt/critical/NginxProxyManager:ro

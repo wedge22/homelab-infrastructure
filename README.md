@@ -32,7 +32,7 @@ Services use one of three access strategies depending on their exposure requirem
 
 - **Traefik reverse proxy** — the default path for most application stacks. Services expose ports via Traefik labels and are accessible through subdomains with SSL termination and Authelia authentication.
 - **Tailscale sidecar** — used for services that should be accessible only over the Tailscale mesh network without being exposed through the reverse proxy (e.g. Immich, Audiobookshelf, Stirling PDF). Each service runs a dedicated Tailscale container and shares its network namespace (`network_mode: service:tailscale`), giving it its own Tailscale hostname and ACL identity. These services set `traefik.enable=false`.
-- **Standalone Tailscale** — a host-mode Tailscale container that advertises the local subnet (`192.168.10.0/24`), providing full LAN access over the mesh for clients on the tailnet.
+- **Standalone Tailscale** — a host-mode Tailscale container that advertises the local subnet (configured via `${LAN_SUBNET}`), providing full LAN access over the mesh for clients on the tailnet.
 
 > **Note:** Core infrastructure compose files (Traefik, Portainer, Authelia, databases) are managed directly on the NAS platform and are not stored in this repository. Only application stack compose files are tracked here.
 

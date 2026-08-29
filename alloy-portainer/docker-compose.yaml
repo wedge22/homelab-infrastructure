@@ -8,8 +8,8 @@ services:
       - LOG_LEVEL=info
       - HOSTNAME=unraid-server
       - DISABLE_REPORTING=true
-      - GCLOUD_FM_COLLECTOR_ID={GCLOUD_FM_COLLECTOR_ID}
-      - GCLOUD_FM_API_KEY={GCLOUD_FM_API_KEY}
+      - GCLOUD_FM_COLLECTOR_ID=${GCLOUD_FM_COLLECTOR_ID}  # Replace with your Collector ID
+      - GCLOUD_FM_API_KEY=${GCLOUD_FM_API_KEY}  # Replace with your API key
     ports:
       # Alloy web UI for monitoring and debugging
       - "12345:12345"

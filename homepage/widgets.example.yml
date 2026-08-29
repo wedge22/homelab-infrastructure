@@ -32,8 +32,8 @@
 
 - openmeteo:
     label: Weather
-    latitude: 49.2827
-    longitude: -122.7947
+    latitude: 0.0000   # Replace with your latitude
+    longitude: 0.0000  # Replace with your longitude
     timezone: America/CityName
     units: metric
     cache: 5
